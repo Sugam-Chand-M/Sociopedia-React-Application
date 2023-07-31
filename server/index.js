@@ -9,6 +9,8 @@ import morgan from "morgan"; // HTTP request logger middleware for node.js.
 import path from "path"; // The Path module provides a way of working with directories and file paths
 import { fileURLToPath } from "url"; // The URL interface is used to parse, construct, normalize, and encode URLs
 import { error, log } from "console";
+import authRoutes from "./routes/auth.js"; // routes folder for the path and routes for every type of features i.e., in this case is auth feature
+import userRoutes from "./routes/users.js";
 import { register } from "./controllers/auth.js";
 
 // Configurations for Middleware
@@ -39,6 +41,9 @@ const upload=multer({storage});
 // Routes with Files
 app.post("/auth/register",upload.single("picture"),register);
 
+// Routes
+app.use("/auth",authRoutes);
+app.use("/users",userRoutes);
 
 // Mongoose setup
 const PORT=process.env.PORT || 6001; // 6001 added in case 3001 doesn't work
