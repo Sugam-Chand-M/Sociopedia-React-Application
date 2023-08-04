@@ -7,10 +7,13 @@ import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
+import state from "state";
 
 function App() {
   const mode=useSelector((state)=>state.mode); // grab the value created during the initial state i.e., store
   const theme=useMemo(()=>createTheme(themeSettings(mode)),[mode]); // setup the theme
+  const isAuth=Boolean(useSelector((state)=>state.token)); // if the token exists then we are authorised i.e., similar to that of automatic login on clicking of a website
+
   // CssBaseline - resets the CSS to the basic version i.e., CSS reset. MUI has its own version of basic CSS
   return (
     <div className="app">
@@ -19,8 +22,8 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route path="/" element={<LoginPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/profile/:userId" element={<ProfilePage />} />
+            <Route path="/home" element={isAuth?<HomePage />:<Navigate to="/" />} />
+            <Route path="/profile/:userId" element={isAuth?<ProfilePage />:<Navigate to="/" />} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
