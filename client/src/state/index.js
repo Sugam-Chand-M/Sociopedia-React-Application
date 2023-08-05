@@ -34,7 +34,7 @@ export const authSlice=createSlice({
         },
         setPost:(state,action)=>{ //
             const updatedPosts=state.posts.map((post)=>{
-                if(post._id===action.payload.post_id) // if there are no changes to the post just return it
+                if(post._id===action.payload.post._id) // if there are no changes to the post just return it
                     return action.payload.post;
                 return post;
             });
